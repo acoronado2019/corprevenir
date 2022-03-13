@@ -58,6 +58,8 @@ const Login = () => {
     const onSubmit = () => {
         axios.post('http://localhost:4000/api/login', body)
             .then(({ data }) => {
+                console.log(data)
+                localStorage.setItem('session', JSON.stringify(data))
                 localStorage.setItem('auth', '"yes"')
                 push('/app')
             })

@@ -9,6 +9,7 @@ import Logo from '../icon.jpg'
 const MainMenu = ({ open, setOpen }) => {
     const classes = useStyles()
     const { push } = useHistory()
+    const session = JSON.parse(localStorage.getItem('session'))
 
     return (
         <Drawer anchor='left' open={open} onClose={() => setOpen(false)}>
@@ -21,17 +22,10 @@ const MainMenu = ({ open, setOpen }) => {
                 </div>
                 <Divider />
             </Paper>
-            <MenuItem onClick={() => {
-                   push('/app')
-                }}>Inicio</MenuItem>
-            <MenuItem onClick={() => {
-                    push('/cargue')
-                }}>Cargar Archivo</MenuItem>
-            <MenuItem onClick={() => {
-                    push('/resultado')
-                }}>Ver Resultado</MenuItem>
+            <MenuItem onClick={() => push('/app')}>Inicio</MenuItem>
+            {session.rol_id === 1 && < MenuItem onClick={() => push('/cargue')}>Cargar Archivo</MenuItem>}
+            {session.rol_id === 2 && <MenuItem onClick={() => push('/resultado')}>Ver Resultado</MenuItem>}
             <MenuItem>Actualizar Contraseña</MenuItem>
-
         </Drawer>
     )
 }

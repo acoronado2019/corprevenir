@@ -32,7 +32,7 @@ CREATE TABLE `persona` (
   `identificacion` varchar(45) NOT NULL,
   PRIMARY KEY (`idpersona`),
   UNIQUE KEY `identificacion_UNIQUE` (`identificacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
