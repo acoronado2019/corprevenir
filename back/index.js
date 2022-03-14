@@ -68,16 +68,18 @@ app.post('/api/login', (req, res) => {
 	const { username, password } = req.body
 	const values = [username, password]
 	var connection = mysql.createConnection(credentials)
-	connection.query("SELECT * FROM user WHERE name = ? AND password = ?", values, (err, result) => {
+	const query = `SELECT u.*, r.name as rol, r.description as rol_description
+									FROM user as u
+									INNER JOIN rol as r
+									on u.rol_id = r.idRol
+									WHERE u.name = ? AND u.password = ?`
+	connection.query(query, values, (err, result) => {
 		if (err) {
 			res.status(500).send(err)
 		} else {
 			if (result.length > 0) {
-				res.status(200).send({
-					"id": result[0].id,
-					"user": result[0].user,
-					"username": result[0].username
-				})
+				delete result[0].password
+				res.status(200).send(result[0])
 			} else {
 				res.status(400).send('Usuario no existe')
 			}
@@ -86,31 +88,55 @@ app.post('/api/login', (req, res) => {
 	connection.end()
 })
 
-app.get('/api/resultado', (req, res) => {
-	//let cedula = req.headers.cedula;
+app.get('/api/resultado/:id', (req, res) => {
 
-	let cedula = "123456";
-	const values = [cedula]
-	
-	var connection = mysql.createConnection(credentials)
-	connection.query("SELECT cedula, anno, cargo, email FROM dbpuntosdorados.resultado WHERE cedula = ?", values, (err, result) => {
+	const idPersona = req.params.id
+
+	//params query person
+	const paramQueryPersona = [idPersona]
+	let resultQueryPersona
+
+ // connection DB
+	const connection = mysql.createConnection(credentials)
+
+	const query = `select r.* , i.descripcion as item
+									from dbpuntosdorados.persona as p
+									inner join dbpuntosdorados.resultado as r
+									on r.cedula = p.identificacion
+									inner join item i on r.item = i.iditem
+									where p.idpersona = ?`
+
+	//resultQueryPersona = connection.query("SELECT identificacion FROM dbpuntosdorados.persona WHERE idpersona = ?", paramQueryPersona, (err, result) => {
+	connection.query(query, paramQueryPersona, (err, result) => {
 		if (err) {
 			res.status(500).send(err)
 		} else {
 			if (result.length > 0) {
-				res.status(200).send({
-					"id": result[0].id,
-					"cedula": result[0].cedula,
-					"anno": result[0].anno,
-					"cargo": result[0].cargo,
-					"email": result[0].email,
-					"fecha_cargue": result[0].fecha_cargue
-				})
+				console.log(result[0])
+				res.status(200).send(result)
 			} else {
-				res.status(400).send('Usuario no tiene evaluaacion')
+				res.status(404).send('Usuario no existe')
 			}
 		}
 	})
+
+/*	console.log(resultQueryPersona)
+
+	//params query resultados
+	const paramQueryResultados = [resultQueryPersona.values[0]]
+
+
+	connection.query("SELECT * FROM dbpuntosdorados.resultado WHERE cedula = ?", paramQueryResultados, (err, result) => {
+		if (err) {
+			res.status(500).send(err)
+		} else {
+			if (result.length > 0) {
+				res.status(200).send(result)
+			} else {
+				res.status(404).send('Usuario no tiene evaluacion')
+			}
+		}
+	})*/
 	connection.end()
 })
 
