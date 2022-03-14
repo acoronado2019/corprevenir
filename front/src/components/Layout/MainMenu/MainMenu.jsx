@@ -24,8 +24,9 @@ const MainMenu = ({ open, setOpen }) => {
             </Paper>
             <MenuItem onClick={() => push('/app')}>Inicio</MenuItem>
             {session.rol_id === 1 && < MenuItem onClick={() => push('/cargue')}>Cargar Archivo</MenuItem>}
-            {session.rol_id === 2 && <MenuItem onClick={() => push('/resultado')}>Ver Resultado</MenuItem>}
-            <MenuItem>Actualizar Contraseña</MenuItem>
+            {session.rol_id !== 1 && <MenuItem onClick={() => push('/resultado')}>Ver Resultado</MenuItem>}
+
+            <MenuItem onClick={() => push('/password')}>Actualizar Contraseña</MenuItem>
         </Drawer>
     )
 }

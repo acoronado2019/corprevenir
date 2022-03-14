@@ -88,6 +88,24 @@ app.post('/api/login', (req, res) => {
 	connection.end()
 })
 
+app.post('/api/updatePassword', (req, res) => {
+	const { username, password, newPassword } = req.body
+	const values = [newPassword, username, password]
+	var connection = mysql.createConnection(credentials);
+	const query = `UPDATE dbpuntosdorados.user as u set u.password= ? 
+									WHERE u.name = ? AND u.password = ?`
+	connection.query(query, values, (err, result) => {
+		if (err) {
+			res.status(500).send(err)
+		} else {
+			
+				res.status(200).send('Contraseña Cambiada')
+			
+		}
+	})
+	connection.end()
+})
+
 app.get('/api/resultado/:id', (req, res) => {
 
 	const idPersona = req.params.id
@@ -120,23 +138,6 @@ app.get('/api/resultado/:id', (req, res) => {
 		}
 	})
 
-/*	console.log(resultQueryPersona)
-
-	//params query resultados
-	const paramQueryResultados = [resultQueryPersona.values[0]]
-
-
-	connection.query("SELECT * FROM dbpuntosdorados.resultado WHERE cedula = ?", paramQueryResultados, (err, result) => {
-		if (err) {
-			res.status(500).send(err)
-		} else {
-			if (result.length > 0) {
-				res.status(200).send(result)
-			} else {
-				res.status(404).send('Usuario no tiene evaluacion')
-			}
-		}
-	})*/
 	connection.end()
 })
 

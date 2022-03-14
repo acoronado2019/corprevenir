@@ -10,6 +10,10 @@ export const useStyles = makeStyles(({ spacing }) => ({
         display: 'flex',
         alignItems: 'center'
     },
+    div1: {
+        padding: 35,
+        alignItems: 'center'
+    },
     logo: {
         height: 30,
         marginLeft: 30,

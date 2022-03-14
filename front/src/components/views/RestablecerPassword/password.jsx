@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Grid, Container, Paper, Avatar, TextField, Button, CssBaseline } from '@material-ui/core'
+import { Grid, Container, Paper, TextField, Button, CssBaseline } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import fondo from './fondo.jpg'
-import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 
@@ -46,7 +45,9 @@ const Login = () => {
     const [body, setBody] = useState({ username: '', password: '' })
     const { push } = useHistory()
     const classes = useStyles()
-
+    const session = JSON.parse(localStorage.getItem('session'))
+    body.username=session.name;
+    console.log(session)
     const inputChange = ({ target }) => {
         const { name, value } = target
         setBody({
@@ -56,9 +57,8 @@ const Login = () => {
     }
 
     const onSubmit = () => {
-        axios.post('http://localhost:4000/api/login', body)
+        axios.post('http://localhost:4000/api/updatePassword', body)
             .then(({ data }) => {
-                console.log(data)
                 localStorage.setItem('session', JSON.stringify(data))
                 localStorage.setItem('auth', '"yes"')
                 push('/app')
@@ -74,21 +74,18 @@ const Login = () => {
             <CssBaseline />
             <Container component={Paper} elevation={5} maxWidth='xs' className={classes.container}>
                 <div className={classes.div}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                   
                     <form className={classes.form}>
                         <TextField
                             fullWidth
                             autoFocus
+                            type='password'
                             color='primary'
                             margin='normal'
                             variant='outlined'
-                            label='Username'
-                            value={body.username}
+                            label='Contraseña Actual'
+                            value={body.password}
                             onChange={inputChange}
-                            name='username'
+                            name='password'
                         />
                         <TextField
                             fullWidth
@@ -96,10 +93,20 @@ const Login = () => {
                             color='primary'
                             margin='normal'
                             variant='outlined'
-                            label='Password'
-                            value={body.password}
+                            label='Nueva Contraseña'
+                            value={body.newPassword}
                             onChange={inputChange}
-                            name='password'
+                            name='newPassword'
+                        />
+                        <TextField
+                            fullWidth
+                            type='password'
+                            color='primary'
+                            margin='normal'
+                            variant='outlined'
+                            label='Confirmar Contraseña'
+                            onChange={inputChange}
+                            name='passwordConfirm'
                         />
                         <Button
                             fullWidth
@@ -108,7 +115,7 @@ const Login = () => {
                             className={classes.button}
                             onClick={onSubmit}
                         >
-                           Iniciar sesión
+                            Cambiar contraseña
                         </Button>
                     </form>
                 </div>

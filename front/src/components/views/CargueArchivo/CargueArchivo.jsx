@@ -14,6 +14,7 @@ const CargueArchivo = () => {
 
       axios.post('http://localhost:4000/api/cargue', data, {headers : {'content-type': 'multipart/form-data'}})
           .then(({ data }) => {
+            window.alert("Archivo Cargado...");
               push('/app')
           })
           .catch(({ response }) => {
@@ -22,25 +23,14 @@ const CargueArchivo = () => {
 
     }
     return (
-        <div className={classes.div} align="center">
-        <form encType="multipart/form-data" action="" align="center">
-          <table className="table" align="center">
-            <tbody>
-            <tr align="center">
-              <td><h2 className="h2">Cargue De Archivo CSV</h2></td>
-            </tr>
-            <tr>
-              <td>
-                <input type="file" name="fileName" id="fileName"></input>
-              </td>
-            </tr>
-            <tr align="center">
-              <td>
-                <input className="button" type="submit" value="Enviar"  onClick={onSubmitFile} />
-              </td>
-            </tr>
-            </tbody>
-          </table>
+        <div align="center">
+        <form encType="multipart/form-data" action=""  align="center">
+             <div align="center">  <h2 >Cargue De Archivo CSV</h2>
+              <span><input type="file" name="fileName" id="fileName"></input></span>
+              </div>
+             <div className={classes.div1} >
+               <input className="button" type="submit" value="Enviar"  onClick={onSubmitFile} />
+             </div>
         </form>
       </div>
     )
