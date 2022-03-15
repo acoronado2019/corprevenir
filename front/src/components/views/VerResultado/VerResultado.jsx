@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useStyles } from '../../../style/style'
 import axios from 'axios'
-import MaterialTable from "material-table";
+import MaterialTable, {MTableBody} from "material-table";
+import { TableCell, TableFooter, TableRow } from "@material-ui/core";
 
 const columns= [
-  { title: 'Cedula', field: 'cedula' },
+  { title: 'Cedula', field: 'cedula', filtering: false },
   { title: 'Año', field: 'anno', type: 'numeric' },
-  { title: 'Trimestre', field: 'trimestre' },
-  { title: 'item', field: 'item'},
-  { title: 'puntos', field: 'puntos'}
+  { title: 'Trimestre', field: 'trimestre', type: 'numeric' },
+  { title: 'item', field: 'item', filtering: false},
+  { title: 'puntos', field: 'puntos', filtering: false}
 
 ];
 
@@ -34,11 +35,28 @@ function VerResultado  () {
 
   return (
     <div className={classes.div} align="center">
-      <MaterialTable
+      {data && <MaterialTable
         columns={columns}
         data={data}
         title="Resultado de Pruebas Aplicadas"
+        options={{
+          filtering: true
+        }}
+        components={{
+          Body: (props) => (
+            <>
+              <MTableBody {...props}/>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={4}/>
+                  <TableCell colSpan={1} style={{ fontWeight: 600 }}>Total: {JSON.stringify(props.renderData.map(item => item.puntos).reduce((prev, curr) => prev + curr, 0))}</TableCell>
+                </TableRow>
+              </TableFooter>
+            </>
+          )
+        }}
       />
+      }
     </div>
   )
 }
