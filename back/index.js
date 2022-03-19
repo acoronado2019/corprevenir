@@ -23,8 +23,8 @@ const upload = multer({
 
 const credentials = {
 	host: 'localhost',
-	user: 'conexion',
-	password: 'Janda2022',
+	user: 'root',
+	password: 'focus2022',
 	database: 'dbpuntosdorados'
 }
 
