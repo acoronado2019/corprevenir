@@ -51,9 +51,15 @@ let csvStream = fastcsv
 		  console.error(error);
 		} else {
 		  let query =
-		  "INSERT INTO dbpuntosdorados.resultado (cedula, nombre, cargo, empresa, email, perfil, item, anno, trimestre, fecha_cargue, puntos ) VALUES ? ";
+		  "REPLACE INTO dbpuntosdorados.resultado (cedula, nombre, cargo, empresa, email, perfil, item, anno, trimestre, fecha_cargue, puntos ) VALUES ? ";
 		  connection.query(query, [csvData], (error, response) => {
-			console.log(error || response);
+			if (error) {
+				res.status(500).send(error)
+			} else {
+					res.status(200).send("ok")
+				 
+				
+			}
 		  });
 		}
 	  });
@@ -80,18 +86,31 @@ app.post('/api/carguePersonas', upload.single('file') , (req, res) => {
 		connection.connect(error => {
 			if (error) {
 			  console.error(error);
+			
 			} else {
 			  let query =
-			  "INSERT INTO dbpuntosdorados.persona (numero_empleado, codigo_compania, nombre_compania, nombre_completo, cargo, subdivision_personal, ceco, cdco_descripcion, identificacion, clase_nomina, nombre_vicepresidencia, nombre_area_funcional, clasificacion) VALUES ? ";
-			  connection.query(query, [csvData], (error, response) => {
-				console.log(error || response);
+			  "INSERT INTO dbpuntosdorados.persona (numero_empleado, codigo_compania, nombre_compania, nombre_completo, cargo, subdivision_personal, ceco, cdco_descripcion, identificacion, clase_nomina, nombre_vicepresidencia, nombre_area_funcional, clasificacion) VALUES ? ON DUPLICATE KEY UPDATE";
+			  connection.query(query, [csvData], (err, result) => {
+				if (err) {
+					res.status(500).send(err)
+				} else {
+						res.status(200).send(result[0])
+					 
+					
+				}
 			  });
 
 			  let queryUser =
-			  "INSERT INTO dbpuntosdorados.user (idpersona, name, password, rol_id) SELECT idpersona, identificacion, identificacion as password, IF(clasificacion = 'Conductor', 3, 2) as rol_id FROM dbpuntosdorados.persona";
-			  connection.query(queryUser, (error, response) => {
-				console.log(error || response);
+			  "INSERT INTO dbpuntosdorados.user (idpersona, name, password, rol_id) SELECT idpersona, identificacion, identificacion as password, IF(clasificacion = 'Conductor', 3, 2) as rol_id FROM dbpuntosdorados.persona ON DUPLICATE KEY UPDATE password = identificacion";
+			  connection.query(queryUser, (err, result) => {
+				if (err) {
+					res.status(500).send(err)
+				} else {
+					
+						res.status(200).send(result[0])
+			  		}
 			  });
+
 			}
 		  });
 	  });
@@ -143,11 +162,14 @@ app.post('/api/updatePassword', (req, res) => {
 	connection.end()
 })
 
-app.get('/api/resultado/:id?:idRol', (req, res) => {
+app.get('/api/resultado/:id', (req, res) => {
 
-	const idPersona = req.params.id
-	const idRol = req.params.idRol
+	const idPersonar = req.params.id
+	const idPersona = idPersonar.substring(0, idPersonar.length - 1);
+	//const idRolr = req.params.idRol
+	const idRol = idPersonar.substr(-1);
 console.log("idRol" + idRol)
+console.log("idPersona" + idPersona)
 	//params query person
 	const paramQueryPersona = [idPersona]
 	let  query 

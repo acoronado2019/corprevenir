@@ -23,7 +23,7 @@ const MainMenu = ({ open, setOpen }) => {
                 <Divider />
             </Paper>
             <MenuItem onClick={() => push('/app')}>Inicio</MenuItem>
-            {session.rol_id === 1 && < MenuItem onClick={() => push('/cargue')}>Cargar Archivo</MenuItem>}
+            {session.rol_id === 1 && < MenuItem onClick={() => push('/cargue')}>Cargar Resultados</MenuItem>}
             {session.rol_id !== 1 && session.rol_id !== 4 && <MenuItem onClick={() => push('/resultado')}>Ver Resultado</MenuItem>}
             {session.rol_id === 4 && < MenuItem onClick={() => push('/carguePersonas')}>Cargar Personas</MenuItem>}
 
