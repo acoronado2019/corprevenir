@@ -11,13 +11,13 @@ const CarguePersonas = () => {
     var imagedata = document.querySelector('input[type="file"]').files[0];
     data.append("file", imagedata);
       axios.post('http://localhost:4000/api/carguePersonas', data, {headers : {'content-type': 'multipart/form-data'}})
-          .then(({ response }) => {
-            window.alert("Archivo Cargado..."+{response});
-              push('/app')
+          .then(({ data }) => {
+            console.log("Archivo Cargado")
           })
           .catch(({ response }) => {
               console.log(response)
           })
+
           window.alert("Archivo Cargado...");
           push('/app')
     }

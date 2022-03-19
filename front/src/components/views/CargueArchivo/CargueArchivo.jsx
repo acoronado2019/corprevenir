@@ -12,17 +12,16 @@ const CargueArchivo = () => {
     data.append("file", imagedata);
 
       axios.post('http://localhost:4000/api/cargue', data, {headers : {'content-type': 'multipart/form-data'}})
-          .then(({ response }) => {
-            console.log("Archivo Cargado" + response)
-            window.alert("Archivo Cargado..."+{response});
-              push('/app')
+          .then(({ data }) => {
+            console.log("Archivo Cargado")
           })
           .catch(({ response }) => {
-              console.log("Error Al Cargar"+response)
+              console.log("Error Al Cargar")
             
           })
-          window.alert("Archivo Cargado...");
-          push('/app')
+
+           window.alert("Archivo Cargado...");
+           push('/app')
     }
     return (
         <div align="center">

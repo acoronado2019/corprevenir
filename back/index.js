@@ -9,6 +9,7 @@ app.use(bodyParser.json({ limit: '10mb' }))
 const multer = require('multer');
 const fs = require("fs");
 const fastcsv = require("fast-csv");
+const { Console } = require('console')
 
 const storage = multer.diskStorage({
 	destination: 'uploads/',
@@ -54,12 +55,8 @@ let csvStream = fastcsv
 		  "REPLACE INTO dbpuntosdorados.resultado (cedula, nombre, cargo, empresa, email, perfil, item, anno, trimestre, fecha_cargue, puntos ) VALUES ? ";
 		  connection.query(query, [csvData], (error, response) => {
 			if (error) {
-				res.status(500).send(error)
-			} else {
-					res.status(200).send("ok")
-				 
-				
-			}
+				console.error(err)
+			} 
 		  });
 		}
 	  });
@@ -89,26 +86,19 @@ app.post('/api/carguePersonas', upload.single('file') , (req, res) => {
 			
 			} else {
 			  let query =
-			  "INSERT INTO dbpuntosdorados.persona (numero_empleado, codigo_compania, nombre_compania, nombre_completo, cargo, subdivision_personal, ceco, cdco_descripcion, identificacion, clase_nomina, nombre_vicepresidencia, nombre_area_funcional, clasificacion) VALUES ? ON DUPLICATE KEY UPDATE";
+			  "INSERT IGNORE INTO dbpuntosdorados.persona (numero_empleado, codigo_compania, nombre_compania, nombre_completo, cargo, subdivision_personal, ceco, cdco_descripcion, identificacion, clase_nomina, nombre_vicepresidencia, nombre_area_funcional, clasificacion) VALUES ?";
 			  connection.query(query, [csvData], (err, result) => {
 				if (err) {
-					res.status(500).send(err)
-				} else {
-						res.status(200).send(result[0])
-					 
-					
-				}
+					console.error(err)
+				} 
 			  });
 
 			  let queryUser =
 			  "INSERT INTO dbpuntosdorados.user (idpersona, name, password, rol_id) SELECT idpersona, identificacion, identificacion as password, IF(clasificacion = 'Conductor', 3, 2) as rol_id FROM dbpuntosdorados.persona ON DUPLICATE KEY UPDATE password = identificacion";
 			  connection.query(queryUser, (err, result) => {
 				if (err) {
-					res.status(500).send(err)
-				} else {
-					
-						res.status(200).send(result[0])
-			  		}
+					console.error(err)
+				} 
 			  });
 
 			}
