@@ -19,7 +19,8 @@ function VerResultado  () {
   const [data, setData]= useState([]);
   const peticionGet=async()=>{
     const idPersona = JSON.parse(localStorage.getItem('session')).idpersona
-    await axios.get(`http://localhost:4000/api/resultado/${idPersona}`)
+    const idRol = JSON.parse(localStorage.getItem('session')).idRol
+    await axios.get(`http://localhost:4000/api/resultado/${idPersona}${idRol}`)
       .then(response=>{
         console.log(response.data)
         setData(response.data);

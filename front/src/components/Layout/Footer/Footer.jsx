@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <footer className={classes.footer}>
             <Container maxWidth='sm'>
-                <Typography align='center'>Corprevenir © {new Date().getFullYear()}</Typography>
+                <Typography align='center'>PUNTOS DORADOS © {new Date().getFullYear()}</Typography>
             </Container>
         </footer>
     )

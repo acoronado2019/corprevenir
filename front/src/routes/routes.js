@@ -7,6 +7,7 @@ const Home = lazy(() => import('../components/views/Home'))
 const CargueArchivo = lazy(() => import('../components/views/CargueArchivo'))
 const VerResultado = lazy(() => import('../components/views/VerResultado'))
 const RestablecerPassword = lazy(() => import('../components/views/RestablecerPassword'))
+const CarguePersonas = lazy(() => import('../components/views/CarguePersonas'))
 
 const routes = [
     {
@@ -38,6 +39,17 @@ const routes = [
                 path: "/cargue",
                 exact: true,
                 render: props => <RouteController component={CargueArchivo} {...props} />
+            }]
+    },
+    {
+        path: "/carguePersonas",
+        exact: true,
+        render: props => <RouteController component={Home}   {...props} />,
+        routes: [
+            {
+                path: "/carguePersonas",
+                exact: true,
+                render: props => <RouteController component={CarguePersonas} {...props} />
             }]
     },
     {

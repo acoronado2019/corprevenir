@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import fondo from './fondo.jpg'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,6 +41,14 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3, 0, 2)
     }
 }))
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#fcc404'
+        }
+      },
+});
 
 const Login = () => {
     const [body, setBody] = useState({ username: '', password: '' })
@@ -108,6 +117,7 @@ const Login = () => {
                             onChange={inputChange}
                             name='passwordConfirm'
                         />
+                         <ThemeProvider theme={theme}>
                         <Button
                             fullWidth
                             variant='contained'
@@ -117,6 +127,7 @@ const Login = () => {
                         >
                             Cambiar contraseña
                         </Button>
+                        </ThemeProvider>
                     </form>
                 </div>
             </Container>

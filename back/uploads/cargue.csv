@@ -1,7 +1,13 @@
 cedula,nombre,cargo,empresa,email,perfil,ítem,anno,trimestre,fechaCargue,puntos
-1234567,Junior,Test,Test, pl6@tes.com,Conductor,1,2022,1,15/03/2021,20
-1234567,Junior,Test,Test, pl7@tes.com,Conductor,2,2022,1,15/03/2022,25
-1234567,Junior,Test,Test, pl8@tes.com,Conductor,3,2022,1,15/03/2022,40
-123456,Pablo,Test,Test, pl6@tes.com,Conductor,2,2022,1,15/03/2021,20
-123456,Pablo,Test,Test, pl7@tes.com,Conductor,1,2022,1,15/03/2022,25
-123456,Pablo,Test,Test, pl8@tes.com,Conductor,3,2022,1,15/03/2022,35
+80238030,Pablo,Test,Test, pl6@tes.com,Conductor,2,2021,1,15/03/2021,20
+80238030,Pablo,Test,Test, pl7@tes.com,Conductor,1,2021,2,15/03/2022,25
+80238030,Pablo,Test,Test, pl8@tes.com,Conductor,3,2021,3,15/03/2022,35
+79244976,Pablo,Test,Test, pl6@tes.com,Conductor,2,2021,1,15/03/2021,20
+79244976,Pablo,Test,Test, pl7@tes.com,Conductor,1,2021,2,15/03/2022,25
+79244976,Pablo,Test,Test, pl8@tes.com,Conductor,3,2021,3,15/03/2022,35
+80238030,Pablo,Test,Test, pl6@tes.com,Conductor,2,2022,1,15/03/2021,20
+80238030,Pablo,Test,Test, pl7@tes.com,Conductor,1,2022,2,15/03/2022,25
+80238030,Pablo,Test,Test, pl8@tes.com,Conductor,3,2022,3,15/03/2022,35
+79244976,Pablo,Test,Test, pl6@tes.com,Conductor,2,2022,1,15/03/2021,20
+79244976,Pablo,Test,Test, pl7@tes.com,Conductor,1,2019,2,15/03/2022,25
+79244976,Pablo,Test,Test, pl8@tes.com,Conductor,3,2019,3,15/03/2022,35

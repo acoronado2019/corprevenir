@@ -5,6 +5,7 @@ import fondo from './fondo.jpg'
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,6 +42,14 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3, 0, 2)
     }
 }))
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#fcc404'
+        }
+      },
+});
 
 const Login = () => {
     const [body, setBody] = useState({ username: '', password: '' })
@@ -101,6 +110,7 @@ const Login = () => {
                             onChange={inputChange}
                             name='password'
                         />
+                          <ThemeProvider theme={theme}>
                         <Button
                             fullWidth
                             variant='contained'
@@ -110,6 +120,7 @@ const Login = () => {
                         >
                            Iniciar sesión
                         </Button>
+                        </ThemeProvider>
                     </form>
                 </div>
             </Container>

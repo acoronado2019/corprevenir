@@ -9,8 +9,6 @@ app.use(bodyParser.json({ limit: '10mb' }))
 const multer = require('multer');
 const fs = require("fs");
 const fastcsv = require("fast-csv");
-// const JWT = require('jsonwebtoken')
-// const secretWord = 'Samus#Aran'
 
 const storage = multer.diskStorage({
 	destination: 'uploads/',
@@ -64,15 +62,54 @@ stream.pipe(csvStream);
 connection.end()
 })
 
+app.post('/api/carguePersonas', upload.single('file') , (req, res) => {
+	console.log("llega persona")
+	let stream = fs.createReadStream("uploads/cargue.csv");
+	let csvData = [];
+	let csvStream = fastcsv
+	  .parse()
+	  .on("data", function(data) {
+		csvData.push(data);
+	  })
+	  .on("end", function() {
+		  console.log(csvData);
+		// remove the first line: header
+		csvData.shift();
+		// connect to the MySQL database
+		var connection = mysql.createConnection(credentials)
+		connection.connect(error => {
+			if (error) {
+			  console.error(error);
+			} else {
+			  let query =
+			  "INSERT INTO dbpuntosdorados.persona (numero_empleado, codigo_compania, nombre_compania, nombre_completo, cargo, subdivision_personal, ceco, cdco_descripcion, identificacion, clase_nomina, nombre_vicepresidencia, nombre_area_funcional, clasificacion) VALUES ? ";
+			  connection.query(query, [csvData], (error, response) => {
+				console.log(error || response);
+			  });
+
+			  let queryUser =
+			  "INSERT INTO dbpuntosdorados.user (idpersona, name, password, rol_id) SELECT idpersona, identificacion, identificacion as password, IF(clasificacion = 'Conductor', 3, 2) as rol_id FROM dbpuntosdorados.persona";
+			  connection.query(queryUser, (error, response) => {
+				console.log(error || response);
+			  });
+			}
+		  });
+	  });
+	stream.pipe(csvStream);
+	connection.end()
+	})
+
 app.post('/api/login', (req, res) => {
 	const { username, password } = req.body
 	const values = [username, password]
 	var connection = mysql.createConnection(credentials)
-	const query = `SELECT u.*, r.name as rol, r.description as rol_description
-									FROM user as u
-									INNER JOIN rol as r
-									on u.rol_id = r.idRol
-									WHERE u.name = ? AND u.password = ?`
+	const query = `SELECT u.*, r.name as rol, r.idRol as idRol, r.description as rol_description, persona.nombre_completo as nombre_completo
+						FROM user as u
+						INNER JOIN rol as r
+						on u.rol_id = r.idRol
+						INNER JOIN persona as persona
+						on u.idPersona = persona.idPersona
+						WHERE u.name = ? AND u.password = ?`
 	connection.query(query, values, (err, result) => {
 		if (err) {
 			res.status(500).send(err)
@@ -106,25 +143,41 @@ app.post('/api/updatePassword', (req, res) => {
 	connection.end()
 })
 
-app.get('/api/resultado/:id', (req, res) => {
+app.get('/api/resultado/:id?:idRol', (req, res) => {
 
 	const idPersona = req.params.id
-
+	const idRol = req.params.idRol
+console.log("idRol" + idRol)
 	//params query person
 	const paramQueryPersona = [idPersona]
-	let resultQueryPersona
+	let  query 
+
+	//resultQueryPersona = connection.query("SELECT identificacion FROM dbpuntosdorados.persona WHERE idpersona = ?", paramQueryPersona, (err, result) => {
+
 
  // connection DB
 	const connection = mysql.createConnection(credentials)
 
-	const query = `select r.* , i.descripcion as item
+	if(idRol==="2"){
+		query = 	`select r.* , i.descripcion as item from dbpuntosdorados.persona as p
+									inner join dbpuntosdorados.resultado as r
+									on r.cedula = p.identificacion
+									inner join dbpuntosdorados.item i on r.item = i.iditem
+                                    inner join dbpuntosdorados.user us on us.idpersona = p.idpersona
+									where p.idpersona = ?  and i.iditem in (7,3,4,6)`
+	}
+	else
+	{
+		query = `select r.* , i.descripcion as item
 									from dbpuntosdorados.persona as p
 									inner join dbpuntosdorados.resultado as r
 									on r.cedula = p.identificacion
 									inner join item i on r.item = i.iditem
 									where p.idpersona = ?`
+	}
 
-	//resultQueryPersona = connection.query("SELECT identificacion FROM dbpuntosdorados.persona WHERE idpersona = ?", paramQueryPersona, (err, result) => {
+	
+
 	connection.query(query, paramQueryPersona, (err, result) => {
 		if (err) {
 			res.status(500).send(err)
