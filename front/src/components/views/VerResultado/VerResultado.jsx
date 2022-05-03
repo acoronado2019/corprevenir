@@ -20,7 +20,7 @@ function VerResultado  () {
   const peticionGet=async()=>{
     const idPersona = JSON.parse(localStorage.getItem('session')).idpersona
     const idRol = JSON.parse(localStorage.getItem('session')).idRol
-    await axios.get(`http://localhost:4000/api/resultado/${idPersona}${idRol}`)
+    await axios.get(`http://service.pdcemex.corprevenir.com/api/resultado/${idPersona}${idRol}`)
       .then(response=>{
         console.log(response.data)
         setData(response.data);
