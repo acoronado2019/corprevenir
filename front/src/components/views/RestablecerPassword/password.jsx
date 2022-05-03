@@ -66,7 +66,7 @@ const Login = () => {
     }
 
     const onSubmit = () => {
-        axios.post('http://localhost:4000/api/updatePassword', body)
+        axios.post('http://service.pdcemex.corprevenir.com/api/updatePassword', body)
             .then(({ data }) => {
                 localStorage.setItem('session', JSON.stringify(data))
                 localStorage.setItem('auth', '"yes"')
