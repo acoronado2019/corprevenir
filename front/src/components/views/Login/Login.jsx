@@ -65,7 +65,7 @@ const Login = () => {
     }
 
     const onSubmit = () => {
-        axios.post('http://service.pdcemex.corprevenir.com/api/login', body)
+        axios.post('http://servicepdcemex.corprevenir.com/api/login', body)
             .then(({ data }) => {
                 console.log(data)
                 localStorage.setItem('session', JSON.stringify(data))
