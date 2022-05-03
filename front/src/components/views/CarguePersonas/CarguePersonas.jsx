@@ -10,7 +10,7 @@ const CarguePersonas = () => {
     var data = new FormData();
     var imagedata = document.querySelector('input[type="file"]').files[0];
     data.append("file", imagedata);
-      axios.post('http://localhost:4000/api/carguePersonas', data, {headers : {'content-type': 'multipart/form-data'}})
+      axios.post('http://service.pdcemex.corprevenir.com/api/carguePersonas', data, {headers : {'content-type': 'multipart/form-data'}})
           .then(({ data }) => {
             console.log("Archivo Cargado")
           })
