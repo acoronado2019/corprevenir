@@ -1,19 +1,12 @@
 import React, { useState } from 'react'
 import { Grid, Container, Paper, TextField, Button, CssBaseline } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import fondo from './fondo.jpg'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundImage: `url(${fondo})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh'
-    },
+  
     container: {
         height: '60%',
         marginTop: theme.spacing(10),
@@ -79,7 +72,7 @@ const Login = () => {
     }
 
     return (
-        <Grid container component='main' className={classes.root}>
+        <Grid container component='main' >
             <CssBaseline />
             <Container component={Paper} elevation={5} maxWidth='xs' className={classes.container}>
                 <div className={classes.div}>

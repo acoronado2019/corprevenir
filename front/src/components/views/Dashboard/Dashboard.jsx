@@ -1,16 +1,9 @@
 import React from 'react'
 import { Typography, Grid} from '@material-ui/core'
-import fondo from './fondo.jpg'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundImage: `url(${fondo})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh'
-    },
+
     div: {
         marginTop: theme.spacing(-15),
         display: 'flex',
@@ -21,21 +14,25 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(35),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        color:'black',
+        textShadow: '2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff'
     }
     ,
     textName: {
         marginTop: theme.spacing(20),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        color:'black',
+        textShadow: '2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff'
     }
 }))
 const Dashboard = () => {
     const classes = useStyles()
     const session = JSON.parse(localStorage.getItem('session'))
     return (
-        <Grid className={classes.root}>
+        <Grid >
           <div className={classes.div}>
             <Typography className={classes.text} variant='h3'>Bienvenido</Typography>
         </div>
